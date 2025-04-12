@@ -7,7 +7,7 @@ def visualize_sorting(arr, index, speed=0.1, plot_spot=None, draw_func=None, bee
         draw_func(arr, plot_spot, index)
     if beep_func is not None:
         beep_func()
-    time.sleep(speed)
+    time.sleep(1/speed)
 
 # --- Beep sound (optional async JS beep) ---
 def play_beep_async(frequency=440, duration=0.05):
