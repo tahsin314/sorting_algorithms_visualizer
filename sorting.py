@@ -75,7 +75,9 @@ def quick_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=No
             candidates = [(array[low], low), (array[mid], mid), (array[high], high)]
             _, pivot_index = sorted(candidates)[1]
             array[pivot_index], array[high] = array[high], array[pivot_index]
-            pivot = array[high]
+            
+            # pivot_index = random.randint(low, high)
+            pivot = array[high] # or low or pivot index
 
         else:
             pivot = array[high]
