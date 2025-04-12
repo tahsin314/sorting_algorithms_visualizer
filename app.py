@@ -181,15 +181,19 @@ if st.session_state.arr is not None and st.button("SORT USING ALL ALGORITHMS", u
         plot_queues = []
         last_drawn = [None] * len(algorithms)
 
+        algo_index = 0
         for row in range(4):
             cols = st.columns(2)
             for col in cols:
-                chart_area = col.empty()
-                all_placeholders.append({
-                    "title": col.markdown(""),
-                    "chart": chart_area
-                })
-                plot_queues.append(queue.Queue())
+                if algo_index < len(algo_names):
+                    col.markdown(f"### {algo_names[algo_index]}")
+                    chart_area = col.empty()
+                    all_placeholders.append({
+                        "chart": chart_area
+                    })
+                    plot_queues.append(queue.Queue())
+                    algo_index += 1
+
 
         def run_sort_thread(func, q, arr_copy, speed_value):
             def custom_draw(arr_frame, plot_spot, hi):
@@ -208,7 +212,7 @@ if st.session_state.arr is not None and st.button("SORT USING ALL ALGORITHMS", u
         threads = []
         current_speed = st.session_state.speed  # Snapshot current speed
         for i, (name, func) in enumerate(algorithms.items()):
-            all_placeholders[i]["title"].markdown(f"### {name}")
+            # all_placeholders[i]["title"].markdown(f"### {name}")
             arr_clone = arr_for_visual.copy()
             t = threading.Thread(
                 target=run_sort_thread,
