@@ -71,42 +71,46 @@ def heap_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=Non
 
 
 def quick_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
-    loop_count = {'count': 0}
-
-    def partition(array, low, high):
-        pivot = array[high]
-        i = low - 1
-        for j in range(low, high):
-            loop_count['count'] += 1
-            if array[j] <= pivot:
-                i += 1
-                array[i], array[j] = array[j], array[i]
-                if visualization:
-                    visualize_sorting(array, j, speed, plot_spot, draw_func, beep_func)
-        array[i + 1], array[high] = array[high], array[i + 1]
-        if visualization:
-            visualize_sorting(array, i + 1, speed, plot_spot, draw_func, beep_func)
-        return i + 1
-
-    def quicksort(array, low, high):
-        if low < high:
-            pi = partition(array, low, high)
-            quicksort(array, low, pi - 1)
-            quicksort(array, pi + 1, high)
-
-    quicksort(arr, 0, len(arr) - 1)
-    return arr, loop_count['count'], 0
+    return _generic_quick_sort(
+        arr,
+        pivot_strategy="last",
+        speed=speed,
+        visualization=visualization,
+        plot_spot=plot_spot,
+        draw_func=draw_func,
+        beep_func=beep_func,
+    )
 
 
 def quick_sort_median3(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
+    return _generic_quick_sort(
+        arr,
+        pivot_strategy="median3",
+        speed=speed,
+        visualization=visualization,
+        plot_spot=plot_spot,
+        draw_func=draw_func,
+        beep_func=beep_func,
+    )
+
+
+def _generic_quick_sort(arr, pivot_strategy="last", speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
     loop_count = {'count': 0}
 
-    def median_of_three(a, b, c):
-        return sorted([a, b, c])[1]
+    def median_of_three_indices(array, low, high):
+        mid = (low + high) // 2
+        trio = [(array[low], low), (array[mid], mid), (array[high], high)]
+        _, idx = sorted(trio)[1]
+        return idx
 
     def partition(array, low, high):
-        mid = (low + high) // 2
-        pivot = median_of_three(array[low], array[mid], array[high])
+        # Select pivot index based on strategy
+        if pivot_strategy == "median3":
+            pivot_index = median_of_three_indices(array, low, high)
+            array[pivot_index], array[high] = array[high], array[pivot_index]
+        # Default is "last" (i.e., array[high])
+
+        pivot = array[high]
         i = low - 1
         for j in range(low, high):
             loop_count['count'] += 1
