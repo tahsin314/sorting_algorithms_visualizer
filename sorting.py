@@ -12,7 +12,6 @@ def bubble_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=N
                     visualize_sorting(arr, j, speed, plot_spot, draw_func, beep_func)
     return arr, loop_count, 0
 
-
 def insertion_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
     loop_count = 0
     for i in range(1, len(arr)):
@@ -23,7 +22,6 @@ def insertion_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_fun
             if visualization:
                 visualize_sorting(arr, i, speed, plot_spot, draw_func, beep_func)
     return arr, loop_count, 0
-
 
 def selection_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
     loop_count = 0
@@ -37,7 +35,6 @@ def selection_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_fun
         if visualization:
             visualize_sorting(arr, i, speed, plot_spot, draw_func, beep_func)
     return arr, loop_count, 0
-
 
 def heapify(arr, n, i, speed, visualization, plot_spot, draw_func, beep_func, loop_info):
     largest = i
@@ -56,7 +53,6 @@ def heapify(arr, n, i, speed, visualization, plot_spot, draw_func, beep_func, lo
             visualize_sorting(arr, largest, speed, plot_spot, draw_func, beep_func)
         heapify(arr, n, largest, speed, visualization, plot_spot, draw_func, beep_func, loop_info)
 
-
 def heap_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
     n = len(arr)
     loop_info = {'count': 0}
@@ -69,48 +65,20 @@ def heap_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=Non
         heapify(arr, i, 0, speed, visualization, plot_spot, draw_func, beep_func, loop_info)
     return arr, loop_info['count'], 0
 
-
-def quick_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
-    return _generic_quick_sort(
-        arr,
-        pivot_strategy="last",
-        speed=speed,
-        visualization=visualization,
-        plot_spot=plot_spot,
-        draw_func=draw_func,
-        beep_func=beep_func,
-    )
-
-
-def quick_sort_median3(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
-    return _generic_quick_sort(
-        arr,
-        pivot_strategy="median3",
-        speed=speed,
-        visualization=visualization,
-        plot_spot=plot_spot,
-        draw_func=draw_func,
-        beep_func=beep_func,
-    )
-
-
-def _generic_quick_sort(arr, pivot_strategy="last", speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
+def quick_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None, median3=False):
     loop_count = {'count': 0}
 
-    def median_of_three_indices(array, low, high):
-        mid = (low + high) // 2
-        trio = [(array[low], low), (array[mid], mid), (array[high], high)]
-        _, idx = sorted(trio)[1]
-        return idx
-
     def partition(array, low, high):
-        # Select pivot index based on strategy
-        if pivot_strategy == "median3":
-            pivot_index = median_of_three_indices(array, low, high)
+        if median3:
+            mid = (low + high) // 2
+            # Find pivot index and move it to the end (array[high])
+            candidates = [(array[low], low), (array[mid], mid), (array[high], high)]
+            _, pivot_index = sorted(candidates)[1]
             array[pivot_index], array[high] = array[high], array[pivot_index]
-        # Default is "last" (i.e., array[high])
+            pivot = array[high]
 
-        pivot = array[high]
+        else:
+            pivot = array[high]
         i = low - 1
         for j in range(low, high):
             loop_count['count'] += 1
@@ -133,6 +101,8 @@ def _generic_quick_sort(arr, pivot_strategy="last", speed=0.1, visualization=Fal
     quicksort(arr, 0, len(arr) - 1)
     return arr, loop_count['count'], 0
 
+def quick_sort_median3(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
+    return quick_sort(arr, speed, visualization, plot_spot, draw_func, beep_func, median3=True)
 
 def merge_sort(arr, speed=0.1, visualization=False, plot_spot=None, draw_func=None, beep_func=None):
     loop_count = {'count': 0}
