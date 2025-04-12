@@ -59,3 +59,8 @@ An interactive, real-time visualizer for sorting algorithms built with **Streaml
 git clone https://github.com/your-username/sorting-algorithms-visualizer.git
 cd sorting-algorithms-visualizer
 pip install -r requirements.txt
+```
+## How to Run
+
+- On terminal run `streamlit run app.py` then click on the generated link
+- If you are using a server via `ssh`, then after `streamlit run app.py` run `ssh -R 80:localhost:8501 serveo.net`. Click on the generate link. 
