@@ -1,6 +1,6 @@
 # 🔢 Sorting Algorithms Visualizer
 
-An interactive, real-time visualizer for sorting algorithms built with **Streamlit** and **Plotly** — designed to help you compare the time and space complexities of various sorting algorithms both visually and numerically.
+An interactive, real-time visualizer for sorting algorithms built with **Streamlit** and **Plotly** — designed to help you compare the time and space complexities of various sorting algorithms both visually and numerically. A demonstration video is available ![here](https://www.youtube.com/watch?v=qTFP6tqR7oU)
 
 ---
 
